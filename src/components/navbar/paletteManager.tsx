@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React from "react";
 import { AnimatePresence } from "framer-motion";
 import { usePaletteStore } from "@/store/paletteStore";
 import { CommandPalette } from "../navbar/commandPalette";

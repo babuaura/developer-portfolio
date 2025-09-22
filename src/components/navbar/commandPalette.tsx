@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+//                                                      ^^^^^^^^^ ADD useCallback
 import { motion } from "framer-motion";
-import { FiSearch, FiDownload, FiGlobe, FiSun, FiMoon } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import { FiSearch, FiDownload, FiGlobe, FiSun } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { siteConfig } from "@/config/site.config";
 
 interface CommandPaletteProps {
   onClose: () => void;
@@ -29,7 +30,7 @@ const ACTIONS: Action[] = [
   {
     label: "Download Resume",
     actionId: "download",
-    href: "/resume.pdf",
+    href: `${siteConfig.pdf_download}`,
     icon: FiDownload,
   },
   { label: "Toggle Theme", actionId: "theme", icon: FiSun },
@@ -41,7 +42,6 @@ export function CommandPalette({
 }: CommandPaletteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [q, setQ] = useState<string>("");
-  const router = useRouter();
 
   const results = ACTIONS.filter((a) =>
     a.label.toLowerCase().includes(q.toLowerCase())
@@ -67,26 +67,32 @@ export function CommandPalette({
     };
   }, [onClose]);
 
-  const handleActionClick = (action: Action) => {
-    switch (action.actionId) {
-      case "goto":
-        if (action.href) {
-          window.location.hash = action.href;
-        }
-        break;
-      case "download":
-        if (action.href) {
-          window.open(action.href, "_blank");
-        }
-        break;
-      case "theme":
-        onToggleTheme();
-        break;
-      default:
-        break;
-    }
-    onClose();
-  };
+  // FIX: Wrap handleActionClick with useCallback
+  const handleActionClick = useCallback(
+    (action: Action) => {
+      switch (action.actionId) {
+        case "goto":
+          if (action.href) {
+            // Use window.location.href or window.location.assign if you need full page reload
+            window.location.hash = action.href;
+          }
+          break;
+        case "download":
+          if (action.href) {
+            window.open(action.href, "_blank");
+          }
+          break;
+        case "theme":
+          onToggleTheme();
+          break;
+        default:
+          break;
+      }
+      // onClose is used here, so it must be a dependency
+      onClose();
+    },
+    [onClose, onToggleTheme]
+  ); // DEPENDENCIES: onClose and onToggleTheme are used inside
 
   const [activeIndex, setActiveIndex] = useState(-1);
 

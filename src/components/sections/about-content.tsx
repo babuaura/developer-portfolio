@@ -36,15 +36,16 @@ export function AboutContent() {
         </CardHeader>
         <CardContent className="space-y-4 relative z-10">
           <p className="text-muted-foreground leading-relaxed">
-            Hi, I&apos;m Babu Angi, a Full Stack Engineer and SaaS enthusiast
+            Hi, **I&apos;m** Babu Angi, a Full Stack Engineer and SaaS enthusiast
             specializing in modern, scalable web application development.
             Leveraging expertise in TypeScript, React, and Next.js, I focus on
             transforming ideas into beautiful, performant products that delight
-            users and drive measurable business growth."
+            users and drive measurable business growth.
+            {/* The stray double quote (") has been removed here. */}
           </p>
           <p className="text-muted-foreground leading-relaxed">
             My journey in tech is rooted in a drive to solve real-world problems
-            and deliver tangible value. I've collaborated with both startups and
+            and deliver tangible value. **I&apos;ve** collaborated with both startups and
             global teams, developing robust, high-impact solutions across
             e-commerce, productivity, and essential developer tooling. My core
             philosophy centers on clean code, thoughtful design, and continuous
@@ -54,7 +55,7 @@ export function AboutContent() {
             Beyond professional engagements, I maintain technical edge by
             actively exploring new frameworks, contributing to open source
             projects, and sharing insights with the broader developer community.
-            I'm always ready for the next challenge—let's connect and architect
+            **I&apos;m** always ready for the next challenge—**let&apos;s** connect and architect
             something impactful.
           </p>
         </CardContent>

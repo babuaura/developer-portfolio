@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import { Menu, X, Globe, Coffee } from "lucide-react";
 import { siteConfig } from "@/config/site.config";
 import { cn } from "@/lib/utils";
@@ -34,8 +34,7 @@ export function Navbar() {
   const { openPalette } = usePaletteStore();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isVisible, setIsVisible] = React.useState(true);
-  const { scrollY } = useScroll();
+  const [isVisible] = React.useState(true);
 
   return (
     <motion.header
