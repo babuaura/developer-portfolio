@@ -12,11 +12,13 @@ import {
   SiNodedotjs,
   SiMongodb,
   SiTailwindcss,
+  SiPostgresql,
 } from "react-icons/si";
 import { IoLogoGithub } from "react-icons/io";
 import Image from "next/image";
 import Stat from "./stat";
 import Typewriter from "./typewriter";
+import CopyToClipboard from "@/components/ui/copyToClipboard";
 
 export function HeroSection() {
   return (
@@ -27,8 +29,6 @@ export function HeroSection() {
       className="w-full min-h-screen grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-10 lg:gap-10 items-center 
                   justify-center relative overflow-hidden z-10 p-4 sm:p-12 lg:p-8 pt-20 sm:pt-20 lg:pt-18"
     >
-      <div className="absolute inset-0 z-0 gradient animate-gradient-shift" />
-
       {/* Column 1: Main Content and CTA */}
       <div className="relative mx-auto w-full max-w-2xl text-center md:text-left">
         <motion.div
@@ -43,7 +43,7 @@ export function HeroSection() {
             <Typewriter
               words={[
                 "Web Developer",
-                "Next.js",
+                "Node & Next Expert ",
                 "Typescript",
                 "AI Enthusiast",
               ]}
@@ -54,9 +54,9 @@ export function HeroSection() {
           </h1>
           {/* Description */}
           <p className="mx-auto max-w-2xl text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
-            I design reliable back‑ends and craft delightful UIs using Next.js,
-            Node.js, and modern databases. Open to contracts and full‑time
-            roles.
+            Specializing in the Node.js/Next.js stack to develop optimized,
+            full-stack applications built for stability and speed. Seeking
+            opportunities in software architecture and front-end excellence.
           </p>
           {/* CTA Buttons */}
           <motion.div
@@ -90,7 +90,11 @@ export function HeroSection() {
               className="group border-primary/90 bg-background/50 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium 
               hover:bg-background/80 hover:border-primary/100 transition-all duration-300 w-full sm:w-auto"
             >
-              <Link href={`${siteConfig.links.email}`}>
+              <Link
+                href={`${siteConfig.pdf_download}`}
+                download="BabuAngi-FullStackDeveloper_gv1okt.pdf"
+                target="_blank"
+              >
                 <Zap
                   className="mr-2 h-4 w-4 transition-transform group-hover:scale-110 dark:text-white text-black"
                   fill="currentColor"
@@ -102,8 +106,8 @@ export function HeroSection() {
           </motion.div>
           <motion.div>
             <div className="mt-8 grid grid-cols-3 gap-3 text-center opacity-90">
-              <Stat number="8+" label="Years" />
-              <Stat number="30+" label="Projects" />
+              <Stat number="4+" label="Years" />
+              <Stat number="5+" label="Projects" />
               <Stat number="10k" label="Users" />
             </div>
           </motion.div>
@@ -146,26 +150,26 @@ export function HeroSection() {
         >
           <h3 className="font-semibold mb-3 text-lg">Tech Snapshot</h3>
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
-            <BatchTech icon={<SiNextdotjs />} label="Next.js" />
             <BatchTech icon={<SiReact />} label="React" />
-            <BatchTech icon={<SiNodedotjs />} label="Node.js" />
-            <BatchTech icon={<SiMongodb />} label="MongoDB" />
+            <BatchTech icon={<SiNextdotjs />} label="Next" />
+            <BatchTech icon={<SiNodedotjs />} label="Node" />
             <BatchTech icon={<SiTailwindcss />} label="Tailwind" />
+            <BatchTech icon={<SiMongodb />} label="MongoDB" />
+            <BatchTech icon={<SiPostgresql />} label="Postgresql" />
           </div>
-          <div className="mt-6">
-            <h4 className="text-sm opacity-80">Quick contact</h4>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <CopyToClipboard textToCopy={siteConfig.links.contactMail} />
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="group border-primary/90 bg-background/50 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium hover:bg-background/80 hover:border-primary/50 transition-all duration-300 w-full sm:w-auto"
+              className=" group border-primary/90 bg-background/50 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium hover:bg-background/80 hover:border-primary/50 transition-all duration-300 w-full sm:w-auto"
             >
               <Link href={`${siteConfig.links.email}`}>
                 Get in Touch
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
-            {/* </p> */}
           </div>
         </motion.div>
       </div>

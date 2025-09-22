@@ -149,7 +149,7 @@ export function ChatInterface() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="text-center"
+        className="text-center p-3"
       >
         <Card className="inline-block bg-gradient-to-r from-secondary/5 to-primary/5 border-border/50 p-6">
           <CardContent className="p-0 space-y-3">

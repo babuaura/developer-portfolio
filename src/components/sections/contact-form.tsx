@@ -21,9 +21,16 @@ export default function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log("Form submission started");
+
     setLoading(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
+
+    console.log(
+      "Submitting form data:",
+      Object.fromEntries(formData.entries())
+    );
 
     try {
       const res = await fetch(
@@ -61,7 +68,7 @@ export default function ContactForm() {
   return (
     <>
       <form
-        action="https://formspree.io/f/myzynpbr"
+        action="https://formspree.io/f/mdklqylo"
         method="POST"
         className="space-y-4"
         onSubmit={handleSubmit}

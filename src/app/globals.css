@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-.navbar-underline {
-  --navbar-underline: black;
-}
-.dark .navbar-underline {
-  --navbar-underline: white;
-}
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

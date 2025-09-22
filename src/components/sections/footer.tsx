@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function FooterSection() {
   return (
-    <footer className="pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-12 text-muted-foreground px-4 sm:px-6 lg:px-8">
+    <footer className="text-muted-foreground py-6 border-t-2 border-white/40">
       <div className="max-w-7xl mx-auto flex flex-col items-center gap-4">
         <nav aria-label="Footer navigation">
           <ul className="flex flex-wrap justify-center gap-4 text-sm">

@@ -49,8 +49,8 @@ export function Navbar() {
         ease: "easeOut",
         y: { duration: 0.3, ease: "easeInOut" },
       }}
-      className="fixed z-50 m-2 w-[calc(100%-1rem)] max-w-full border-4 rounded-xl bg-foreground/30 backdrop-blur-xl 
-      shadow-lg ring-1 ring-white/80"
+      className="fixed z-50 m-2 w-[calc(100%-1rem)] max-w-full border-2 border-white/70 rounded-xl bg-foreground/30 backdrop-blur-xl 
+      shadow-xl shadow-white/20 ring-1 ring-white/90"
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between navbar-underline">
         {/* Logo / Brand */}

@@ -24,6 +24,7 @@ export interface SiteConfig {
   author: string;
   author_img:string;
   author_full_img:string;
+  pdf_download:string;
 
   theme: {
     default: 'light' | 'dark';
@@ -64,6 +65,7 @@ export const siteConfig: SiteConfig = {
     'I am a Full Stack developer who loves creating new things. I spend my spare time building free apps & tools, and I am currently diving into Machine Learning & AI to expand my problem‑solving toolkit. Always open to collaboration & new challenges.',
     author_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/ar_1:1,c_auto,g_auto,w_500/r_max/babu-profile_moqpjd',
     author_full_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758203782/profile-full_vb18vp.png',
+    pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758392090/BabuAngi-FullStackDeveloper_gv1okt.pdf',
     keywords: [
     'Babu Angi',
     'Full Stack Developer',
