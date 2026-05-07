@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { sendContactMessage } from "@/lib/contact-api";
 
 function Toast({ message, open }: { message: string; open: boolean }) {
   if (!open) return null;
@@ -21,58 +22,41 @@ export default function ContactForm() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("Form submission started");
 
     setLoading(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    console.log(
-      "Submitting form data:",
-      Object.fromEntries(formData.entries())
-    );
-
     try {
-      const res = await fetch(
-        form.action || "https://formspree.io/f/myzynpbr",
-        {
-          method: form.method || "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      await sendContactMessage({
+        name: String(formData.get("name") ?? ""),
+        email: String(formData.get("email") ?? ""),
+        message: String(formData.get("message") ?? ""),
+        source: "contact-page",
+      });
 
-      if (res.ok) {
-        setToast({
-          open: true,
-          message: "Message sent — thanks! I will reply within 1–3 days.",
-        });
-        form.reset();
-      } else {
-        setToast({
-          open: true,
-          message: "Something went wrong. Please try again later.",
-        });
-      }
-    } catch {
-      setToast({ open: true, message: "Network error. Please try again." });
+      setToast({
+        open: true,
+        message: "Message sent - thanks! I will reply within 1-3 days.",
+      });
+      form.reset();
+    } catch (error) {
+      setToast({
+        open: true,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Network error. Please try again.",
+      });
     } finally {
       setLoading(false);
       window.setTimeout(() => setToast({ open: false, message: "" }), 5000);
     }
   }
 
-  // Simple controlled form submit via fetch + tiny toast
   return (
     <>
-      <form
-        action="https://formspree.io/f/mdklqylo"
-        method="POST"
-        className="space-y-4"
-        onSubmit={handleSubmit}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name</Label>
           <Input
@@ -106,8 +90,6 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* recommended Formspree fields */}
-        <input type="hidden" name="_subject" value="New contact from website" />
         <div className="flex items-center gap-3">
           <Button type="submit" disabled={loading}>
             {loading ? "Sending..." : "Send message"}

@@ -60,9 +60,9 @@ export const siteConfig: SiteConfig = {
   // siteName: "Babu Angi | Developer Portfolio",
   domain: "babuangi.com",
   author: "Babu Angi",
-  description: 'Full Stack developer creating useful & delightful web experiences. Exploring ML & AI.',
- about:
-    'I am a Full Stack developer who loves creating new things. I spend my spare time building free apps & tools, and I am currently diving into Machine Learning & AI to expand my problem‑solving toolkit. Always open to collaboration & new challenges.',
+  description: 'Full Stack Developer & SaaS Builder - specializing in scalable SaaS platforms, AI systems, admin dashboards, and production-grade backend architectures.',
+  about:
+    'Full Stack Engineer based in Bangalore, India. I build scalable SaaS platforms, AI-powered systems (RAG pipelines, LLM integrations), complex admin dashboards, and production-grade backend architectures. 4+ years, 15+ projects shipped.',
     author_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/ar_1:1,c_auto,g_auto,w_500/r_max/babu-profile_moqpjd',
     author_full_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758203782/profile-full_vb18vp.png',
     pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758392090/BabuAngi-FullStackDeveloper_gv1okt.pdf',
@@ -108,11 +108,11 @@ export const siteConfig: SiteConfig = {
   ],
   navigation: [
     { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'Posts', href: '/posts' },
-    { label: 'Chat', href: '/chat' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Projects', href: '/#projects' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Stack', href: '/#stack' },
+    { label: 'About', href: '/#about' },
+    { label: 'Contact', href: '/#contact' },
   ],
   
   seo: {
@@ -197,6 +197,11 @@ export function buildMetadata(overrides: Partial<Metadata> = {}): Metadata {
       images: seo.image ? [seo.image] : [],
       site: siteConfig.twitterHandle,
       creator: siteConfig.twitterHandle,
+    },
+    icons: {
+      icon: [{ url: '/brand-flame.svg', type: 'image/svg+xml' }],
+      shortcut: ['/brand-flame.svg'],
+      apple: [{ url: '/brand-flame.svg', type: 'image/svg+xml' }],
     },
     other: {
       robots: seo.robots,

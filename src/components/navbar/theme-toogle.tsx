@@ -20,7 +20,7 @@ export function ThemeToggle({
   className,
   showLabel = false,
 }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -28,7 +28,7 @@ export function ThemeToggle({
   }, []);
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   if (!mounted) {
@@ -37,7 +37,7 @@ export function ThemeToggle({
         variant={variant}
         size={showLabel ? size : "icon"}
         className={cn(
-          "rounded-full", // Ensure rounded-full for the placeholder
+          "rounded-full border border-primary/20 bg-themeToggleButton text-foreground shadow-sm shadow-primary/5",
           className
         )}
         disabled
@@ -55,27 +55,25 @@ export function ThemeToggle({
       size={showLabel ? size : "icon"}
       onClick={toggleTheme}
       className={cn(
-        "rounded-full border-1 border-foreground bg-themeToggleButton", // Always ensure the button is rounded-full
-        "hover:bg-themeToggleButton/50", // Outer Moon color for dark theme
+        "rounded-full border border-primary/20 bg-themeToggleButton text-foreground shadow-sm shadow-primary/5",
+        "hover:-translate-y-0.5 hover:border-primary/35 hover:bg-themeToggleButton/80",
         className
       )}
-      aria-label={`Switch to ${theme} theme`}
+      aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
     >
       <motion.div
-        key={theme}
-        initial={{ opacity: 0, rotate: theme === "dark" ? -90 : 90 }}
+        key={resolvedTheme}
+        initial={{ opacity: 0, rotate: resolvedTheme === "dark" ? -90 : 90 }}
         animate={{ opacity: 1, rotate: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {theme === "dark" ? (
-          // Moon icon is white when dark theme is active border-foreground/20 bg-foreground/30
-          <Moon size={16} color={"white"} fill={"currentColor"} />
+        {resolvedTheme === "dark" ? (
+          <Moon size={16} fill="currentColor" />
         ) : (
-          // Sun icon remains yellow in light theme
-          <Sun size={16} color={"gold"} fill={"currentColor"} />
+          <Sun size={16} className="text-amber-500" fill="currentColor" />
         )}
       </motion.div>
-      {showLabel && <span className="ml-2 capitalize">{theme}</span>}
+      {showLabel && <span className="ml-2 capitalize">{resolvedTheme}</span>}
     </Button>
   );
 }

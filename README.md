@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Workspace
+
+This folder is the Next.js portfolio website. The related Go backend and Flutter app live as separate sibling projects:
+
+- `../babu-profile-backend` - Go API for contact messages and future personal data
+- `../babu-profile-app` - Flutter app for your private profile dashboard
+
 ## Getting Started
 
 First, run the development server:
@@ -15,6 +22,27 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Run the Go backend in another terminal:
+
+```bash
+cd ../babu-profile-backend
+go run ./cmd/api
+```
+
+The website contact forms post to `http://localhost:8080/api/contact` by default. To use another backend URL, set:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+```
+
+Run the Flutter app after installing Flutter:
+
+```bash
+cd ../babu-profile-app
+flutter pub get
+flutter run
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

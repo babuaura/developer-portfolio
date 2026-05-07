@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { MessageCircle, Lock, Github } from "lucide-react";
+import { Lock, Github } from "lucide-react";
 
 export function ChatHeader() {
   return (
@@ -12,13 +11,11 @@ export function ChatHeader() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <Badge
-          variant="outline"
-          className="mb-6 bg-primary/5 text-primary border-primary/20"
-        >
-          <MessageCircle className="mr-1 h-3 w-3" />
+        <span className="mb-6 inline-flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-primary/80">
+          <span className="h-px w-10 bg-primary/70" />
           Private Chat
-        </Badge>
+          <span className="h-px w-10 bg-primary/70" />
+        </span>
         <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl mb-6">
           Let&apos;s{" "}
           <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">

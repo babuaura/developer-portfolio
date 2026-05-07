@@ -43,15 +43,10 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-.gradient {
-  /* Use the variables to define the gradient */
-  background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
-}
-
 :root {
 --radius: 0.625rem;
-  --background: oklch(96.7% 0.02 90);
-  --foreground: oklch(33.7% 0.021 270);
+  --background: oklch(97.5% 0.018 245);
+  --foreground: oklch(23% 0.035 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -81,16 +76,15 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --navbar: oklch(73.827% 0.12241 259.321);
-  --themeToggleButton: oklch(16.317% 0.05772 286.189 / 0.733);
-
-  /* Gradient Variables */
-  --gradient-start: oklch(95.334% 0.09536 136.083);
-  /* Gradient End: Brighter, airy yellow */
-  --gradient-end: oklch(93.69% 0.06149 82.091);}
+  --navbar: oklch(99% 0.006 245 / 72%);
+  --themeToggleButton: oklch(97% 0.014 248 / 90%);
+  --ambient-line: oklch(54% 0.16 255 / 22%);
+  --ambient-grid: oklch(35% 0.035 260 / 15%);
+  --ambient-cursor: oklch(56.8% 0.17 259.9 / 18%);
+}
 
 .dark {
- --background: oklch(20% 0.05 250);
+ --background: oklch(14.5% 0.055 255);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -121,44 +115,115 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-  --themeToggleButton: oklch(25.969% 0.05617 299.378);
-  --navbar: oklch(86.25% 0.04696 249.418);
+  --themeToggleButton: oklch(30% 0.07 258 / 88%);
+  --navbar: oklch(25% 0.05 252 / 70%);
   --tech-snap-border: oklch(0.985 0 0 / 20%);
-
-  /* Gradient Variables */
-  --gradient-start: oklch(20% 0.05 250);
-  --gradient-end: oklch(15% 0.08 300);
+  --ambient-line: oklch(69% 0.18 262 / 28%);
+  --ambient-grid: oklch(86% 0.04 260 / 12%);
+  --ambient-cursor: oklch(68% 0.2 262 / 18%);
 }
 
 @keyframes glow {
-  /* Starting point: Subtle, soft shadow */
-  0% {
-    box-shadow: 0 0 5px 0px rgba(0, 115, 255, 0.4);
-  }
+  0% { box-shadow: 0 0 5px 0px rgba(0, 115, 255, 0.4); }
+  50% { box-shadow: 0 0 20px 5px rgba(0, 115, 255, 0.8); }
+  100% { box-shadow: 0 0 5px 0px rgba(0, 115, 255, 0.4); }
+}
 
-  /* Mid-point: Brighter, more expanded shadow */
-  50% {
-    box-shadow: 0 0 20px 5px rgba(0, 115, 255, 0.8);
-  }
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-  /* End point: Returns to the starting subtle shadow */
-  100% {
-    box-shadow: 0 0 5px 0px rgba(0, 115, 255, 0.4);
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes ambient-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-24px, 18px, 0); }
 }
 
 /* Animation for glowing effect for profile photo */
 .animate-glow {
-  /* Apply the animation */
   animation: glow 2s infinite ease-in-out;
-  
-  /* Required properties for the effect to work as an overlay */
-  position: absolute; /* Ensures it can be positioned over the image */
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 9999px; /* Ensures it's perfectly round */
+  border-radius: 9999px;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Section reveal utility */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), #8B5CF6, #3B82F6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(40% 0.05 260);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(50% 0.1 260);
 }
 
 @layer base {
@@ -167,5 +232,82 @@
   }
   body {
     @apply bg-background text-foreground;
+    background:
+      linear-gradient(135deg, oklch(99% 0.012 235), oklch(94% 0.03 178) 45%, oklch(97% 0.018 315));
+  }
+
+  .dark body {
+    background:
+      radial-gradient(1200px 800px at 10% 0%, oklch(25% 0.08 245), transparent 58%),
+      linear-gradient(135deg, oklch(13% 0.06 240), oklch(16% 0.06 276) 54%, oklch(12% 0.07 310));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.ambient-background {
+  --cursor-x: 50vw;
+  --cursor-y: 30vh;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: -10%;
+  opacity: 0.95;
+  background-image:
+    linear-gradient(to right, var(--ambient-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ambient-grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black, transparent 74%);
+  animation: ambient-drift 18s ease-in-out infinite;
+}
+
+.ambient-cursor {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(360px circle at var(--cursor-x) var(--cursor-y), var(--ambient-cursor), transparent 62%),
+    linear-gradient(115deg, transparent 0 28%, oklch(60% 0.16 205 / 8%) 45%, transparent 65%);
+  transition: background 120ms linear;
+}
+
+.ambient-sketch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4vh;
+  width: 100%;
+  height: 44vh;
+  opacity: 0.75;
+}
+
+.ambient-sketch path {
+  fill: none;
+  stroke: var(--ambient-line);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 5 12;
+}
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
   }
 }

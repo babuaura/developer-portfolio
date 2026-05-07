@@ -6,6 +6,7 @@ import { buildMetadata } from "@/config/site.config";
 import { FooterSection } from "@/components/sections/footer";
 import { Navbar } from "@/components/navbar/navbar";
 import { PaletteManager } from "@/components/navbar/paletteManager";
+import { AmbientBackground } from "@/components/ambient-background";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen gradient animate-gradient-shift text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider>
+          <AmbientBackground />
           <Navbar />
           {children}
           <PaletteManager />
