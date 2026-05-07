@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { featuredProjects, type Project } from "@/data/projects";
 import {
   X,
@@ -83,11 +82,7 @@ function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    setMounted(true);
-
     const scrollY = window.scrollY;
     const previousBodyStyle = {
       position: document.body.style.position,
@@ -117,44 +112,42 @@ function ProjectModal({
     };
   }, [onClose]);
 
-  if (!mounted) return null;
-
-  return createPortal(
-    <AnimatePresence>
+  return (
+    <motion.div
+      key={project.id}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[1000] flex items-center justify-center overflow-hidden bg-black/85 p-3 backdrop-blur-md sm:p-5"
+      onClick={onClose}
+      role="presentation"
+    >
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[1000] flex items-center justify-center overflow-hidden bg-black/85 p-3 backdrop-blur-md sm:p-5"
-        onClick={onClose}
-        role="presentation"
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-background/95 shadow-2xl shadow-black/50 backdrop-blur-xl sm:max-h-[calc(100dvh-2.5rem)]"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
       >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-background/95 shadow-2xl shadow-black/50 backdrop-blur-xl sm:max-h-[calc(100dvh-2.5rem)]"
-          onClick={(e) => e.stopPropagation()}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="project-modal-title"
-        >
           <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           {/* Header */}
           <div
-            className={`sticky top-0 z-10 border-b border-white/10 bg-gradient-to-br ${project.gradient} p-5 pb-4 sm:p-6`}
+            className={`relative z-10 border-b border-white/10 bg-gradient-to-br ${project.gradient} p-5 pb-6 sm:p-7 lg:sticky lg:top-0`}
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full border border-white/10 bg-background/35 p-2 text-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-background/55"
+              className="absolute right-4 top-4 z-20 rounded-full border border-white/10 bg-background/50 p-2 text-foreground shadow-sm backdrop-blur-md transition-colors hover:bg-background/70 sm:right-5 sm:top-5"
               aria-label="Close project case study"
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="mb-3 flex items-start gap-3 pr-11">
+            <div className="mb-5 flex flex-col gap-4 pr-12 sm:flex-row sm:items-start sm:gap-4 sm:pr-14">
               <ProjectIcon project={project} size="lg" />
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="mb-1 flex flex-wrap items-center gap-2">
                   <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-white/10 text-foreground">
                     {project.category}
@@ -168,11 +161,11 @@ function ProjectModal({
                 </div>
                 <h2
                   id="project-modal-title"
-                  className="text-xl font-black leading-tight text-foreground md:text-2xl"
+                  className="max-w-3xl text-2xl font-black leading-tight text-foreground sm:text-3xl"
                 >
                   {project.title}
                 </h2>
-                <p className="text-sm text-muted-foreground mt-0.5">
+                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
                   {project.tagline}
                 </p>
               </div>
@@ -180,16 +173,16 @@ function ProjectModal({
 
             {/* Metrics */}
             {project.metrics && (
-              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {project.metrics.map((m) => (
                   <div
                     key={m.label}
-                    className="text-center rounded-xl bg-white/10 p-2"
+                    className="rounded-xl bg-white/10 p-3 text-center"
                   >
-                    <div className="text-lg font-black text-foreground">
+                    <div className="text-lg font-black leading-none text-foreground sm:text-xl">
                       {m.value}
                     </div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="mt-1 text-xs text-muted-foreground">
                       {m.label}
                     </div>
                   </div>
@@ -307,10 +300,8 @@ function ProjectModal({
             </div>
           </div>
           </div>
-        </motion.div>
       </motion.div>
-    </AnimatePresence>,
-    document.body
+    </motion.div>
   );
 }
 
@@ -508,12 +499,15 @@ export function FeaturedProjectsSection() {
       </div>
 
       {/* Modal */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            key={selectedProject.id}
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

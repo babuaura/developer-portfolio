@@ -153,7 +153,7 @@ function ProjectRow({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 hover:border-white/20 transition-colors">
+    <div className="flex flex-wrap items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-white/20 sm:flex-nowrap sm:gap-4">
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
         style={{ backgroundColor: `${project.accentColor}20` }}
@@ -175,7 +175,7 @@ function ProjectRow({
       >
         {project.status}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="ml-auto flex items-center gap-2">
         <button
           onClick={onToggle}
           className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
@@ -220,9 +220,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   ];
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex flex-col md:flex-row">
       {/* Sidebar */}
-      <aside className="w-56 border-r border-white/10 bg-white/3 flex flex-col flex-shrink-0">
+      <aside className="w-full border-b border-white/10 bg-white/3 flex flex-col flex-shrink-0 md:w-56 md:border-b-0 md:border-r">
         {/* Logo */}
         <div className="p-5 border-b border-white/10">
           <div className="text-sm font-black text-foreground">
@@ -262,9 +262,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="min-w-0 flex-1 overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 z-10 border-b border-white/10 bg-background/80 backdrop-blur-xl px-8 py-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 flex flex-col gap-3 border-b border-white/10 bg-background/80 px-4 py-4 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <div>
             <h1 className="text-lg font-bold text-foreground capitalize">
               {activeSection}
@@ -284,7 +284,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           </a>
         </div>
 
-        <div className="p-8">
+        <div className="p-4 sm:p-8">
           {/* ── Dashboard ── */}
           {activeSection === "dashboard" && (
             <motion.div
@@ -292,7 +292,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-8"
             >
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <MetricCard
                   icon={<FolderOpen className="w-4 h-4" />}
                   label="Total Projects"

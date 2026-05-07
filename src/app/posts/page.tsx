@@ -2,13 +2,14 @@ import { Suspense } from "react";
 import { PostsGrid } from "@/components/sections/posts-grid";
 import { PostsHeader } from "@/components/sections/posts-header";
 import { PostsSearch } from "@/components/sections/posts-search";
-import { siteConfig } from "@/config/site.config";
+import { buildMetadata, siteConfig } from "@/config/site.config";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: `Posts | ${siteConfig.siteName}`,
   description:
-    "Read my latest thoughts on technology, development, and innovation from Hashnode and Medium.",
-};
+    "Read Babu Angi's thoughts on full stack development, SaaS architecture, AI systems, and production engineering.",
+  path: "/posts",
+});
 
 export default function PostsPage() {
   return (

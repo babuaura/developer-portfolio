@@ -4,7 +4,9 @@ import ContactCard from "@/components/sections/contact-card";
 
 export const metadata = buildMetadata({
   title: `Contact | ${siteConfig.siteName}`,
-  description: "Get in touch about landing pages, branding, or templates.",
+  description:
+    "Contact Babu Angi for SaaS platforms, AI systems, admin dashboards, backend APIs, and architecture consulting.",
+  path: "/contact",
 });
 
 export default function ContactPage() {

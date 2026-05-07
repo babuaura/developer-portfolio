@@ -1,11 +1,12 @@
 import { AboutHeader } from "@/components/sections/about-header";
 import { AboutContent } from "@/components/sections/about-content";
-import { siteConfig } from "@/config/site.config";
+import { buildMetadata, siteConfig } from "@/config/site.config";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: `About | ${siteConfig.siteName}`,
   description: siteConfig.about,
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

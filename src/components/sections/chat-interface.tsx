@@ -81,7 +81,7 @@ export function ChatInterface() {
                       : "flex justify-start"
                   }
                 >
-                  <div className="flex items-end gap-2 max-w-[70%]">
+                  <div className="flex w-full max-w-[88%] items-end gap-2 sm:max-w-[70%]">
                     {msg.sender === "user" && (
                       <Image
                         src={msg.avatar}
@@ -122,7 +122,7 @@ export function ChatInterface() {
               ))}
             </div>
             {user && (
-              <div className="flex gap-2 mt-4">
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                 <input
                   type="text"
                   className="flex-1 rounded-lg border border-border px-3 py-2 text-sm bg-background"

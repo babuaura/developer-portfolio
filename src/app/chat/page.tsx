@@ -2,13 +2,14 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChatHeader } from "@/components/sections/chat-header";
 import { ChatInterface } from "@/components/sections/chat-interface";
-import { siteConfig } from "@/config/site.config";
+import { buildMetadata, siteConfig } from "@/config/site.config";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: `Chat | ${siteConfig.siteName}`,
   description:
-    "Have a private conversation with Muhammad Fiaz using GitHub Discussions.",
-};
+    "Start a private project conversation with Babu Angi about SaaS, AI systems, dashboards, or backend architecture.",
+  path: "/chat",
+});
 
 export default function ChatPage() {
   return (
@@ -30,7 +31,7 @@ function ChatSkeleton() {
         <Skeleton className="h-6 w-1/3 mb-4" />
         <div className="flex flex-col gap-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex gap-2 max-w-[70%]">
+            <div key={i} className="flex w-full max-w-[85%] gap-2 sm:max-w-[70%]">
               <Skeleton className="h-8 w-8 rounded-full" />
               <Skeleton className="flex-1 h-10 rounded-lg" />
             </div>

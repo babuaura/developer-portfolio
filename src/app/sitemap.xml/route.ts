@@ -6,9 +6,8 @@ const STATIC_PAGES = [
   '/projects',
   '/posts',
   '/chat',
+  '/contact',
   '/privacy-policy',
-  '/terms-of-service',
-  '/refund-policy',
 ];
 
 function buildUrl(host: string, path: string) {

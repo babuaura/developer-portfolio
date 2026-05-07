@@ -171,30 +171,70 @@ export const siteConfig: SiteConfig = {
   // ],
 };
 
-export function buildMetadata(overrides: Partial<Metadata> = {}): Metadata {
+type MetadataOptions = Partial<Metadata> & {
+  path?: string;
+  imageAlt?: string;
+};
+
+function absoluteUrl(pathOrUrl = '/') {
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  const path = pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`;
+  return `https://${siteConfig.domain}${path}`;
+}
+
+export function buildMetadata(overrides: MetadataOptions = {}): Metadata {
   const { seo, siteName, domain } = siteConfig;
+  const { path, imageAlt, ...metadataOverrides } = overrides;
+  const canonical = absoluteUrl(path ?? seo.canonical ?? '/');
+  const title = metadataOverrides.title ?? seo.title;
+  const description = metadataOverrides.description ?? seo.description;
+  const image = seo.image ? absoluteUrl(seo.image) : undefined;
 
   const base: Metadata = {
-    title: seo.title,
-    description: seo.description,
+    title,
+    description,
+    applicationName: siteName,
     keywords: seo.keywords,
     authors: [{ name: siteConfig.author, url: siteConfig.links.website }],
+    creator: siteConfig.author,
+    publisher: siteConfig.author,
+    category: 'technology',
     metadataBase: new URL(`https://${domain}`),
-    alternates: { canonical: seo.canonical ?? `https://${domain}` },
+    alternates: { canonical },
+    robots: {
+      index: seo.robots !== 'noindex',
+      follow: seo.robots !== 'nofollow',
+      googleBot: {
+        index: seo.robots !== 'noindex',
+        follow: seo.robots !== 'nofollow',
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+        'max-video-preview': -1,
+      },
+    },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: seo.canonical ?? `https://${domain}`,
+      title,
+      description,
+      url: canonical,
       siteName,
-      images: seo.image ? [seo.image] : [],
+      images: image
+        ? [
+            {
+              url: image,
+              width: 1200,
+              height: 630,
+              alt: imageAlt ?? seo.imageAlt,
+            },
+          ]
+        : [],
       type: seo.type ?? 'website',
       locale: seo.locale,
     },
     twitter: {
       card: seo.twitterCard ?? 'summary_large_image',
-      title: seo.title,
-      description: seo.description,
-      images: seo.image ? [seo.image] : [],
+      title,
+      description,
+      images: image ? [image] : [],
       site: siteConfig.twitterHandle,
       creator: siteConfig.twitterHandle,
     },
@@ -204,13 +244,12 @@ export function buildMetadata(overrides: Partial<Metadata> = {}): Metadata {
       apple: [{ url: '/brand-flame.svg', type: 'image/svg+xml' }],
     },
     other: {
-      robots: seo.robots,
       'theme-color': seo.themeColor,
-      'og:image:alt': seo.imageAlt,
+      'og:image:alt': imageAlt ?? seo.imageAlt,
     },
   } as Metadata;
 
-  return { ...base, ...overrides };
+  return { ...base, ...metadataOverrides };
 }
 
 export type { Metadata };

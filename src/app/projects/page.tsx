@@ -1,13 +1,14 @@
 import { Suspense } from "react";
 import { ProjectsGrid } from "@/components/sections/projects-grid";
 import { ProjectsHeader } from "@/components/sections/projects-header";
-import { siteConfig } from "@/config/site.config";
+import { buildMetadata, siteConfig } from "@/config/site.config";
 
-export const metadata = {
+export const metadata = buildMetadata({
   title: `Projects | ${siteConfig.siteName}`,
   description:
-    "Explore my latest projects, open source contributions, and technical experiments.",
-};
+    "Explore production-grade SaaS, AI, dashboard, and backend architecture projects built by Babu Angi.",
+  path: "/projects",
+});
 
 export default function ProjectsPage() {
   return (

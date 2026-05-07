@@ -66,7 +66,7 @@ export function ContactSection() {
       icon: <MessageCircle className="w-5 h-5" />,
       label: "WhatsApp",
       value: "Quick chat",
-      href: "https://wa.me/919876543210",
+      href: "https://wa.me/919791237669",
       color: "#25D366",
       desc: "For quick queries",
     },
@@ -142,7 +142,7 @@ export function ContactSection() {
                 Whether it&apos;s a SaaS platform, AI system, or architecture review —
                 I&apos;m here to help you ship with confidence.
               </p>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <div className="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
                 <div className="flex items-center gap-1.5">
                   <MapPin className="w-4 h-4 text-primary" />
                   Bangalore, India · Remote
@@ -212,7 +212,7 @@ export function ContactSection() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
                         Your Name
