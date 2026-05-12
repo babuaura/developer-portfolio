@@ -107,7 +107,7 @@ export function HeroSection() {
               className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-500 mb-5"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Available for projects
+              Open to full-time roles
               <span className="text-emerald-500/60">-</span>
               <span className="flex items-center gap-1 text-xs text-emerald-400/80">
                 <MapPin className="w-3 h-3" />
@@ -163,9 +163,9 @@ export function HeroSection() {
               transition={{ delay: 0.4 }}
               className="text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8"
             >
-              Specializing in multi-tenant SaaS platforms, RAG pipelines, admin
-              dashboards, and scalable backend architectures. I ship real
-              systems - not demos.
+              I build multi-tenant SaaS platforms, RAG pipelines, admin
+              dashboards, and scalable backend architectures for teams that need
+              reliable production software - not demos.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -185,13 +185,13 @@ export function HeroSection() {
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </a>
 
-              {/* Secondary: Book a Call */}
+              {/* Secondary: Contact */}
               <Link
                 href="/#contact"
                 className="group inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm px-6 py-3 text-sm font-semibold text-foreground hover:border-white/25 hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto justify-center"
               >
                 <Calendar className="w-4 h-4" />
-                Book a Call
+                Contact Me
               </Link>
 
               {/* Resume */}
@@ -301,13 +301,13 @@ export function HeroSection() {
                       </div>
                       <div className="absolute -bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full border border-emerald-400/30 bg-slate-950/95 px-3 py-1.5 text-[11px] font-semibold text-emerald-400 shadow-lg shadow-black/30 backdrop-blur">
                         <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)]" />
-                        Available
+                        Job Ready
                       </div>
                     </div>
 
                     <div className="min-w-0 flex-1">
                       <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                        SaaS Builder
+                        Product Engineer
                       </p>
                       <h2 className="text-2xl font-black leading-tight text-foreground sm:text-3xl">
                         {siteConfig.author}
@@ -368,7 +368,7 @@ export function HeroSection() {
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition-colors hover:bg-primary/90"
                   >
                     <Mail className="h-4 w-4" />
-                    Get in touch
+                    Contact me
                   </Link>
                   <a
                     href="#projects"

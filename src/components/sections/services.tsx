@@ -94,7 +94,7 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
             className="inline-flex items-center gap-2 text-sm font-medium group/link"
             style={{ color: service.accentColor }}
           >
-            Get Started
+            View fit
             <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-1" />
           </Link>
         </div>
@@ -136,15 +136,15 @@ export function ServicesSection() {
             </span>
             <div className="min-w-0">
               <h2 className="text-3xl md:text-5xl font-black text-foreground mb-4">
-                Services that deliver
+                Engineering strengths with
                 <br />
                 <span className="bg-gradient-to-r from-emerald-500 to-blue-500 bg-clip-text text-transparent">
-                  real business value
+                  production impact
                 </span>
               </h2>
               <p className="text-muted-foreground max-w-2xl text-lg">
-                From idea to production. Specializing in complex, high-impact systems
-                that actually ship.
+                The areas where I can contribute quickly inside a product team,
+                from architecture decisions to production delivery.
               </p>
             </div>
           </div>
@@ -171,15 +171,15 @@ export function ServicesSection() {
                 Not sure what you need?
               </div>
               <div className="text-sm text-muted-foreground">
-                Let&apos;s have a 30-minute architecture call — free, no strings
-                attached.
+                I&apos;m actively exploring full-time engineering roles where SaaS,
+                AI systems, dashboards, and backend architecture matter.
               </div>
             </div>
             <Link
               href="/contact"
               className="flex-shrink-0 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors"
             >
-              Book a Call
+              Contact Me
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

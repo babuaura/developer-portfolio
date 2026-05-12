@@ -30,7 +30,7 @@ export default function ContactCard() {
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl">Contact Me</CardTitle>
             <p className="mt-1 text-sm text-muted-foreground">
-              Tell me about your project or ask a question{" "}
+              Reach out about a role, interview, collaboration, or question{" "}
             </p>
           </CardHeader>
 

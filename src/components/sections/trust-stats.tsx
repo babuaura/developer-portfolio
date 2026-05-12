@@ -130,8 +130,8 @@ export function TrustStatsSection() {
     {
       number: 15,
       suffix: "+",
-      label: "Projects Delivered",
-      description: "Production SaaS apps shipped to real clients",
+      label: "Products Shipped",
+      description: "Production SaaS apps and internal tools delivered",
       icon: <Rocket className="h-5 w-5" />,
       gradient: "from-blue-500/10 to-violet-500/10",
     },
@@ -254,7 +254,7 @@ export function TrustStatsSection() {
           className="text-center"
         >
           <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
-            Trusted by clients across industries
+            Experience across product domains
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {clients.map((client) => (

@@ -85,7 +85,7 @@ export default function ContactForm() {
             id="message"
             name="message"
             rows={6}
-            placeholder="Tell me about your project or question"
+            placeholder="Tell me about the role, team, company, collaboration, or question"
             required
           />
         </div>
@@ -95,7 +95,7 @@ export default function ContactForm() {
             {loading ? "Sending..." : "Send message"}
           </Button>
           <p className="text-sm text-muted-foreground">
-            We will reply within 2 business days.
+            I will reply within 1-3 days.
           </p>
         </div>
       </form>

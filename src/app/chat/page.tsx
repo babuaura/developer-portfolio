@@ -7,7 +7,7 @@ import { buildMetadata, siteConfig } from "@/config/site.config";
 export const metadata = buildMetadata({
   title: `Chat | ${siteConfig.siteName}`,
   description:
-    "Start a private project conversation with Babu Angi about SaaS, AI systems, dashboards, or backend architecture.",
+    "Start a private conversation with Babu Angi about roles, teams, SaaS, AI systems, dashboards, or backend architecture.",
   path: "/chat",
 });
 

@@ -46,7 +46,7 @@ export function ContactSection() {
       setError(
         error instanceof Error
           ? error.message
-          : "Could not send your message. Please try again."
+          : "Could not send your message. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -66,7 +66,7 @@ export function ContactSection() {
       icon: <MessageCircle className="w-5 h-5" />,
       label: "WhatsApp",
       value: "Quick chat",
-      href: "https://wa.me/919791237669",
+      href: "https://wa.me/919791237669?text=Hello%20Babu!%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect.",
       color: "#25D366",
       desc: "For quick queries",
     },
@@ -107,19 +107,20 @@ export function ContactSection() {
           <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center md:flex-row md:items-start md:justify-center md:text-left">
             <span className="inline-flex shrink-0 items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.22em] text-primary/80 md:mt-4">
               <span className="h-px w-8 bg-primary/70 md:w-10" />
-              Let&apos;s Work Together
+              Open to Opportunities
             </span>
             <div className="min-w-0">
               <h2 className="text-3xl md:text-5xl font-black text-foreground mb-4">
-                Let&apos;s build something
+                Let&apos;s talk about
                 <br />
                 <span className="bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
-                  real
+                  the right role
                 </span>
               </h2>
               <p className="text-muted-foreground max-w-xl text-lg">
-                Have a project in mind? Let&apos;s talk about how I can help you
-                build it right - from architecture to deployment.
+                I&apos;m actively looking for full-time Full Stack, Backend, and AI
+                engineering roles, and I&apos;m also open to selective product
+                collaborations where my experience fits.
               </p>
             </div>
           </div>
@@ -136,11 +137,12 @@ export function ContactSection() {
             {/* CTA Header */}
             <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-violet-500/10 p-6">
               <h3 className="text-xl font-bold text-foreground mb-2">
-                Ready to start a project?
+                Hiring or building a strong team?
               </h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Whether it&apos;s a SaaS platform, AI system, or architecture review —
-                I&apos;m here to help you ship with confidence.
+                Reach out for roles, interviews, technical discussions, or
+                selective product work where SaaS, AI, dashboards, or backend
+                systems matter.
               </p>
               <div className="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
                 <div className="flex items-center gap-1.5">
@@ -172,13 +174,20 @@ export function ContactSection() {
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ backgroundColor: `${link.color}20`, color: link.color }}
+                    style={{
+                      backgroundColor: `${link.color}20`,
+                      color: link.color,
+                    }}
                   >
                     {link.icon}
                   </div>
                   <div className="flex-1">
-                    <div className="text-sm font-semibold text-foreground">{link.label}</div>
-                    <div className="text-xs text-muted-foreground">{link.desc}</div>
+                    <div className="text-sm font-semibold text-foreground">
+                      {link.label}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {link.desc}
+                    </div>
                   </div>
                   <ArrowRight
                     className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1"
@@ -247,7 +256,7 @@ export function ContactSection() {
 
                   <div>
                     <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                      Project Budget
+                      Opportunity Type
                     </label>
                     <select
                       value={formState.budget}
@@ -256,18 +265,18 @@ export function ContactSection() {
                       }
                       className="w-full rounded-xl border border-white/10 bg-background px-4 py-2.5 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                     >
-                      <option value="">Select range...</option>
-                      <option>Under $2,000</option>
-                      <option>$2,000 – $5,000</option>
-                      <option>$5,000 – $15,000</option>
-                      <option>$15,000+</option>
-                      <option>Let&apos;s discuss</option>
+                      <option value="">Select type...</option>
+                      <option>Full-time role</option>
+                      <option>Contract-to-hire</option>
+                      <option>Technical interview</option>
+                      <option>Product collaboration</option>
+                      <option>General question</option>
                     </select>
                   </div>
 
                   <div>
                     <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                      Tell me about your project
+                      Message
                     </label>
                     <textarea
                       required
@@ -276,7 +285,7 @@ export function ContactSection() {
                       onChange={(e) =>
                         setFormState({ ...formState, message: e.target.value })
                       }
-                      placeholder="What are you building? What's the problem you're solving? What's your timeline?"
+                      placeholder="Tell me about the role, team, company, product, or question."
                       className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all resize-none"
                     />
                   </div>

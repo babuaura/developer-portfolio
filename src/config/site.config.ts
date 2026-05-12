@@ -60,12 +60,12 @@ export const siteConfig: SiteConfig = {
   // siteName: "Babu Angi | Developer Portfolio",
   domain: "babuangi.com",
   author: "Babu Angi",
-  description: 'Full Stack Developer & SaaS Builder - specializing in scalable SaaS platforms, AI systems, admin dashboards, and production-grade backend architectures.',
+  description: 'Full Stack Developer open to full-time roles - specializing in scalable SaaS platforms, AI systems, admin dashboards, and production-grade backend architectures.',
   about:
-    'Full Stack Engineer based in Bangalore, India. I build scalable SaaS platforms, AI-powered systems (RAG pipelines, LLM integrations), complex admin dashboards, and production-grade backend architectures. 4+ years, 15+ projects shipped.',
+    'Full Stack Engineer based in Bangalore, India. I build scalable SaaS platforms, AI-powered systems (RAG pipelines, LLM integrations), complex admin dashboards, and production-grade backend architectures. Open to full-time roles, remote teams, and selective product collaborations.',
     author_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/ar_1:1,c_auto,g_auto,w_500/r_max/babu-profile_moqpjd',
     author_full_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758203782/profile-full_vb18vp.png',
-    pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1778170750/Babu_Angi_Portfolio_k5dcii.pdf',
+    pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1778574373/Babu_Angi_software_developer_atvcg4.pdf',
     keywords: [
     'Babu Angi',
     'Full Stack Developer',
@@ -109,7 +109,7 @@ export const siteConfig: SiteConfig = {
   navigation: [
     { label: 'Home', href: '/' },
     { label: 'Projects', href: '/#projects' },
-    { label: 'Services', href: '/#services' },
+    { label: 'Strengths', href: '/#services' },
     { label: 'Stack', href: '/#stack' },
     { label: 'About', href: '/#about' },
     { label: 'Contact', href: '/#contact' },
@@ -117,7 +117,7 @@ export const siteConfig: SiteConfig = {
   
   seo: {
     title: 'Babu Angi',
-    description: 'Full Stack developer creating useful & delightful web experiences. Exploring ML & AI.',
+    description: 'Full Stack Developer open to full-time engineering roles in SaaS, AI systems, dashboards, and backend architecture.',
     keywords: [
       'Babu Angi',
       'Full Stack Developer',

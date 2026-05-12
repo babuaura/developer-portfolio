@@ -15,7 +15,7 @@ const navGroups = [
   {
     label: "Sections",
     links: [
-      { label: "Services", href: "/#services" },
+      { label: "Strengths", href: "/#services" },
       { label: "Tech Stack", href: "/#stack" },
       { label: "Architecture", href: "/#architecture" },
       { label: "Process", href: "/#process" },
@@ -54,18 +54,18 @@ export function FooterSection() {
                 <span className="text-primary">Babu</span> Angi
               </div>
               <div className="text-xs text-muted-foreground">
-                Full Stack Developer & SaaS Builder
+                Full Stack Developer & AI Systems Engineer
               </div>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mb-6">
-              Building scalable SaaS platforms, AI systems, and production-grade
-              applications that actually work at scale.
+              Full Stack Developer building scalable SaaS platforms, AI systems,
+              dashboards, and backend architectures for production teams.
             </p>
 
             {/* Status */}
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-400 mb-6">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Available for new projects
+              Open to full-time roles
             </div>
 
             {/* Social links */}

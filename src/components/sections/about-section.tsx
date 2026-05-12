@@ -28,15 +28,15 @@ const principles = [
     icon: "🤝",
     title: "Clear communication",
     description:
-      "Daily updates, no surprises. I treat clients as partners, not as ticket-issuers.",
+      "Clear updates, thoughtful trade-offs, and documentation that helps teams move faster.",
   },
 ];
 
 const highlights = [
   { icon: <Briefcase className="w-4 h-4" />, text: "4+ years in full-stack development" },
-  { icon: <Code2 className="w-4 h-4" />, text: "15+ production SaaS platforms shipped" },
+  { icon: <Code2 className="w-4 h-4" />, text: "15+ production-grade platforms shipped" },
   { icon: <Zap className="w-4 h-4" />, text: "Expert in Next.js, Node.js, Go & AI" },
-  { icon: <Globe className="w-4 h-4" />, text: "Working with global clients remotely" },
+  { icon: <Globe className="w-4 h-4" />, text: "Ready for remote or Bangalore-based teams" },
 ];
 
 export function AboutSection() {
@@ -101,7 +101,7 @@ export function AboutSection() {
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs font-semibold text-foreground">
-                    Open to projects
+                    Open to roles
                   </span>
                 </div>
                 <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
@@ -149,8 +149,8 @@ export function AboutSection() {
               <p>
                 Over 4+ years, I&apos;ve built everything from multi-tenant enterprise
                 software to RAG pipelines to real-time hospitality systems. I
-                don&apos;t just write code — I design systems that handle growth,
-                failure, and change gracefully.
+                bring product thinking, backend depth, and frontend execution
+                into engineering teams that need dependable ownership.
               </p>
               <p>
                 My philosophy: understand the problem deeply first, design the
