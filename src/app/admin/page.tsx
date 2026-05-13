@@ -17,7 +17,107 @@ import {
   Code2,
   Zap,
   Users,
+  Mail,
+  RefreshCw,
+  AlertCircle,
 } from "lucide-react";
+
+type BackendProfile = {
+  name: string;
+  title: string;
+  location: string;
+  email: string;
+  website: string;
+  summary: string;
+  highlights: { label: string; value: string }[];
+  links: { label: string; url: string }[];
+  focusAreas: string[];
+};
+
+type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  source: string;
+  status: string;
+  createdAt: string;
+  budget?: string;
+};
+
+type DashboardData = {
+  profile: BackendProfile;
+  stats: {
+    totalMessages: number;
+    newMessages: number;
+    readMessages: number;
+    archived: number;
+  };
+  recentMessages: ContactMessage[];
+};
+
+async function fetchDashboard() {
+  const response = await fetch("/api/backend/dashboard", { cache: "no-store" });
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error ?? "Could not load backend dashboard");
+  }
+  return response.json() as Promise<DashboardData>;
+}
+
+async function updateMessageStatus(id: string, status: string) {
+  const response = await fetch(`/api/backend/messages/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error ?? "Could not update message");
+  }
+}
+
+async function updateProfile(profile: BackendProfile) {
+  const response = await fetch("/api/backend/profile", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(profile),
+  });
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error ?? "Could not save profile");
+  }
+  return response.json() as Promise<BackendProfile>;
+}
+
+function profileFromForm(formData: FormData, current?: BackendProfile): BackendProfile {
+  const splitList = (value: FormDataEntryValue | null) =>
+    String(value ?? "")
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+  return {
+    name: String(formData.get("name") ?? ""),
+    title: String(formData.get("title") ?? ""),
+    location: String(formData.get("location") ?? ""),
+    email: String(formData.get("email") ?? ""),
+    website: String(formData.get("website") ?? ""),
+    summary: String(formData.get("summary") ?? ""),
+    highlights: current?.highlights ?? [],
+    links: current?.links ?? [],
+    focusAreas: splitList(formData.get("focusAreas")),
+  };
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Unknown date";
+  return new Intl.DateTimeFormat("en-IN", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
 
 // -----------------------------------------------------------------------------
 // PIN GATE
@@ -198,19 +298,122 @@ function ProjectRow({
   );
 }
 
+function MessageRow({
+  message,
+  onMarkRead,
+}: {
+  message: ContactMessage;
+  onMarkRead: () => void;
+}) {
+  const isNew = message.status === "new";
+  return (
+    <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-sm font-semibold text-foreground">
+              {message.name}
+            </h3>
+            <span
+              className={`rounded-md px-2 py-0.5 text-[11px] font-bold uppercase ${
+                isNew
+                  ? "bg-emerald-500/15 text-emerald-400"
+                  : "bg-white/10 text-muted-foreground"
+              }`}
+            >
+              {message.status}
+            </span>
+          </div>
+          <a
+            href={`mailto:${message.email}`}
+            className="mt-1 block truncate text-xs text-primary"
+          >
+            {message.email}
+          </a>
+          <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+            {message.message}
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+            <span>{formatDate(message.createdAt)}</span>
+            <span>Source: {message.source || "website"}</span>
+            {message.budget ? <span>Budget: {message.budget}</span> : null}
+          </div>
+        </div>
+        <button
+          onClick={onMarkRead}
+          disabled={!isNew}
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-white/5 px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <Mail className="h-3.5 w-3.5" />
+          Mark read
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // -----------------------------------------------------------------------------
 // ADMIN DASHBOARD
 // -----------------------------------------------------------------------------
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [dashboard, setDashboard] = useState<DashboardData | null>(null);
+  const [backendError, setBackendError] = useState("");
+  const [loadingBackend, setLoadingBackend] = useState(true);
+  const [savingSettings, setSavingSettings] = useState(false);
+  const [settingsMessage, setSettingsMessage] = useState("");
   const [projectVisibility, setProjectVisibility] = useState<
     Record<string, boolean>
   >(
     Object.fromEntries(featuredProjects.map((p) => [p.id, true]))
   );
 
+  const loadDashboard = async () => {
+    setLoadingBackend(true);
+    setBackendError("");
+    try {
+      setDashboard(await fetchDashboard());
+    } catch (error) {
+      setBackendError(
+        error instanceof Error ? error.message : "Could not load backend data"
+      );
+    } finally {
+      setLoadingBackend(false);
+    }
+  };
+
+  useEffect(() => {
+    void loadDashboard();
+  }, []);
+
   const toggleVisibility = (id: string) => {
     setProjectVisibility((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const markMessageRead = async (id: string) => {
+    await updateMessageStatus(id, "read");
+    await loadDashboard();
+  };
+
+  const saveSettings = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!dashboard?.profile) return;
+    setSavingSettings(true);
+    setSettingsMessage("");
+    try {
+      const profile = profileFromForm(new FormData(event.currentTarget), dashboard.profile);
+      const savedProfile = await updateProfile(profile);
+      setDashboard((current) =>
+        current ? { ...current, profile: savedProfile } : current
+      );
+      setSettingsMessage("Profile saved to backend.");
+    } catch (error) {
+      setSettingsMessage(
+        error instanceof Error ? error.message : "Could not save profile"
+      );
+    } finally {
+      setSavingSettings(false);
+    }
   };
 
   const navItems = [
@@ -292,57 +495,111 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               className="space-y-8"
             >
+              <div className="flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-muted-foreground">
+                    Backend connection
+                  </p>
+                  <h2 className="mt-1 text-base font-semibold text-foreground">
+                    {loadingBackend
+                      ? "Checking profile backend..."
+                      : backendError
+                        ? "Backend needs attention"
+                        : "Portfolio, app, and API are connected"}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {backendError ||
+                      `${dashboard?.profile.name ?? "Profile"} data and leads are loading from the Go API.`}
+                  </p>
+                </div>
+                <button
+                  onClick={() => void loadDashboard()}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {backendError ? (
+                    <AlertCircle className="h-3.5 w-3.5" />
+                  ) : (
+                    <RefreshCw className="h-3.5 w-3.5" />
+                  )}
+                  Refresh
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <MetricCard
-                  icon={<FolderOpen className="w-4 h-4" />}
-                  label="Total Projects"
-                  value={`${featuredProjects.length}`}
-                  sub="Featured case studies"
+                  icon={<Mail className="w-4 h-4" />}
+                  label="Total Leads"
+                  value={`${dashboard?.stats.totalMessages ?? 0}`}
+                  sub="Stored in backend"
                   color="#3B82F6"
                 />
                 <MetricCard
-                  icon={<Eye className="w-4 h-4" />}
-                  label="Visible"
-                  value={`${Object.values(projectVisibility).filter(Boolean).length}`}
-                  sub="Shown on homepage"
+                  icon={<Users className="w-4 h-4" />}
+                  label="New Messages"
+                  value={`${dashboard?.stats.newMessages ?? 0}`}
+                  sub="Unread contact leads"
                   color="#10B981"
                 />
                 <MetricCard
                   icon={<TrendingUp className="w-4 h-4" />}
-                  label="Tech Items"
-                  value="38"
-                  sub="Across 5 categories"
+                  label="Read Messages"
+                  value={`${dashboard?.stats.readMessages ?? 0}`}
+                  sub="Follow-ups reviewed"
                   color="#8B5CF6"
                 />
                 <MetricCard
-                  icon={<Users className="w-4 h-4" />}
-                  label="Services"
-                  value="5"
-                  sub="Listed on site"
+                  icon={<FolderOpen className="w-4 h-4" />}
+                  label="Projects"
+                  value={`${featuredProjects.length}`}
+                  sub="Featured case studies"
                   color="#F59E0B"
                 />
               </div>
 
-              {/* Quick stats */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-                <h2 className="text-sm font-semibold text-foreground mb-4">
-                  Site Overview
-                </h2>
-                <div className="space-y-3">
-                  {[
-                    { label: "Sections on homepage", value: "9", icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
-                    { label: "Featured projects", value: `${featuredProjects.length}`, icon: <FolderOpen className="w-3.5 h-3.5" /> },
-                    { label: "Tech stack items", value: "38", icon: <Code2 className="w-3.5 h-3.5" /> },
-                    { label: "Services offered", value: "5", icon: <Zap className="w-3.5 h-3.5" /> },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        {item.icon}
-                        {item.label}
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                  <h2 className="mb-4 text-sm font-semibold text-foreground">
+                    Recent Backend Messages
+                  </h2>
+                  <div className="space-y-3">
+                    {dashboard?.recentMessages.length ? (
+                      dashboard.recentMessages.map((message) => (
+                        <MessageRow
+                          key={message.id}
+                          message={message}
+                          onMarkRead={() => void markMessageRead(message.id)}
+                        />
+                      ))
+                    ) : (
+                      <p className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-muted-foreground">
+                        {loadingBackend
+                          ? "Loading messages..."
+                          : "No contact messages yet."}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+                  <h2 className="text-sm font-semibold text-foreground mb-4">
+                    Site Overview
+                  </h2>
+                  <div className="space-y-3">
+                    {[
+                      { label: "Sections on homepage", value: "9", icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
+                      { label: "Visible projects", value: `${Object.values(projectVisibility).filter(Boolean).length}`, icon: <Eye className="w-3.5 h-3.5" /> },
+                      { label: "Tech stack items", value: "38", icon: <Code2 className="w-3.5 h-3.5" /> },
+                      { label: "Services offered", value: "5", icon: <Zap className="w-3.5 h-3.5" /> },
+                    ].map((item) => (
+                      <div key={item.label} className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          {item.icon}
+                          {item.label}
+                        </div>
+                        <span className="font-semibold text-foreground">{item.value}</span>
                       </div>
-                      <span className="font-semibold text-foreground">{item.value}</span>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -394,37 +651,81 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-6 max-w-lg"
+              className="space-y-6 max-w-2xl"
             >
-              <h2 className="text-base font-semibold text-foreground">Settings</h2>
+              <div>
+                <h2 className="text-base font-semibold text-foreground">Profile Settings</h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Saved here updates the backend profile used by the app and admin dashboard.
+                </p>
+              </div>
 
-              <div className="space-y-4">
-                {[
-                  { label: "Admin PIN", value: "****", type: "password" },
-                  { label: "Contact Email", value: "contact@babuangi.com", type: "email" },
-                  { label: "WhatsApp Number", value: "+91 98765 43210", type: "tel" },
-                  { label: "Calendly URL", value: "https://calendly.com/babuangi", type: "url" },
-                ].map((field) => (
-                  <div key={field.label}>
+              {dashboard?.profile ? (
+                <form className="space-y-4" onSubmit={saveSettings}>
+                  {[
+                    { label: "Name", name: "name", value: dashboard.profile.name, type: "text" },
+                    { label: "Title", name: "title", value: dashboard.profile.title, type: "text" },
+                    { label: "Location", name: "location", value: dashboard.profile.location, type: "text" },
+                    { label: "Contact Email", name: "email", value: dashboard.profile.email, type: "email" },
+                    { label: "Website", name: "website", value: dashboard.profile.website, type: "url" },
+                  ].map((field) => (
+                    <div key={field.name}>
+                      <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                        {field.label}
+                      </label>
+                      <input
+                        name={field.name}
+                        type={field.type}
+                        defaultValue={field.value}
+                        className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                        required
+                      />
+                    </div>
+                  ))}
+
+                  <div>
                     <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                      {field.label}
+                      Summary
                     </label>
-                    <input
-                      type={field.type}
-                      defaultValue={field.value}
+                    <textarea
+                      name="summary"
+                      defaultValue={dashboard.profile.summary}
+                      rows={4}
+                      className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                      Focus Areas
+                    </label>
+                    <textarea
+                      name="focusAreas"
+                      defaultValue={dashboard.profile.focusAreas.join("\n")}
+                      rows={5}
                       className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all"
                     />
                   </div>
-                ))}
-              </div>
 
-              <button className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 transition-colors">
-                Save Settings
-              </button>
-
-              <div className="rounded-xl border border-blue-500/20 bg-blue-500/10 p-4 text-sm text-blue-400">
-                ℹ️ Settings are currently UI-only. Connect a backend API to persist changes.
-              </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button
+                      type="submit"
+                      disabled={savingSettings}
+                      className="rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60 transition-colors"
+                    >
+                      {savingSettings ? "Saving..." : "Save Profile"}
+                    </button>
+                    {settingsMessage ? (
+                      <p className="text-sm text-muted-foreground">{settingsMessage}</p>
+                    ) : null}
+                  </div>
+                </form>
+              ) : (
+                <p className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-muted-foreground">
+                  Load the backend dashboard before editing profile settings.
+                </p>
+              )}
             </motion.div>
           )}
         </div>
