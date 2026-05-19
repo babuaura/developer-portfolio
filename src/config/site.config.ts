@@ -65,7 +65,7 @@ export const siteConfig: SiteConfig = {
     'Full Stack Engineer based in Bangalore, India. I build scalable SaaS platforms, AI-powered systems (RAG pipelines, LLM integrations), complex admin dashboards, and production-grade backend architectures. Open to full-time roles, remote teams, and selective product collaborations.',
     author_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/ar_1:1,c_auto,g_auto,w_500/r_max/babu-profile_moqpjd',
     author_full_img: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1758203782/profile-full_vb18vp.png',
-    pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1778574373/Babu_Angi_software_developer_atvcg4.pdf',
+    pdf_download: 'https://res.cloudinary.com/dlkawkuca/image/upload/v1779173899/Babu_Angi_developer_Resume_dkxp2k.pdf',
     keywords: [
     'Babu Angi',
     'Full Stack Developer',
